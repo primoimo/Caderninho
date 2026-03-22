@@ -1,16 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <!-- Blue Background -->
-  <rect width="512" height="512" fill="#3b82f6" rx="112" />
+  <rect width="512" height="512" fill="#4361EE" rx="112" />
   
-  <!-- White Notebook Outline (Smaller and Centered) -->
-  <g fill="none" stroke="#ffffff" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+  <!-- White Notebook Outline -->
+  <g fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
     <!-- Notebook Border -->
-    <rect x="170" y="141" width="172" height="230" rx="24" />
+    <rect x="128" y="104" width="256" height="304" rx="16" />
     <!-- Vertical Margin Line -->
-    <line x1="208" y1="141" x2="208" y2="371" />
+    <line x1="166" y1="104" x2="166" y2="408" />
     <!-- Horizontal Lines -->
-    <line x1="236" y1="198" x2="304" y2="198" />
-    <line x1="236" y1="256" x2="304" y2="256" />
-    <line x1="236" y1="314" x2="304" y2="314" />
+    <line x1="210" y1="192" x2="340" y2="192" />
+    <line x1="210" y1="256" x2="340" y2="256" />
+    <line x1="210" y1="320" x2="340" y2="320" />
   </g>
+
+  <!-- Sparkle -->
+  <path d="M 465 480 Q 475 480 475 470 Q 475 480 485 480 Q 475 480 475 490 Q 475 480 465 480 Z" fill="#ffffff" opacity="0.8"/>
 </svg>
