@@ -1,0 +1,52 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+    
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+    
+    function isValidMeeting(data) {
+      return hasOnlyAllowedFields(['title', 'description', 'theme', 'faithLevel', 'peopleCount', 'steps', 'createdAt']) &&
+             hasRequiredFields(['title', 'description', 'theme', 'faithLevel', 'peopleCount', 'steps', 'createdAt']) &&
+             validStringLength('title', 1, 100) &&
+             validStringLength('description', 1, 500) &&
+             validStringLength('theme', 1, 50) &&
+             validStringLength('faithLevel', 1, 50) &&
+             data.peopleCount is number && data.peopleCount >= 0 &&
+             data.steps is list && data.steps.size() <= 20 &&
+             data.createdAt is string;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+    
+    match /meetings/{meetingId} {
+      allow read: if true;
+      allow create: if isValidMeeting(request.resource.data);
+      allow update: if isValidMeeting(request.resource.data) &&
+                    request.resource.data.createdAt == resource.data.createdAt; // Immutable
+      allow delete: if true;
+    }
+  }
+}

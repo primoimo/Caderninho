@@ -1,0 +1,36 @@
+{
+  "entities": {
+    "Meeting": {
+      "title": "Meeting",
+      "description": "A shared meeting entry in the notebook",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the meeting" },
+        "description": { "type": "string", "description": "Description of the meeting" },
+        "theme": { "type": "string", "description": "Theme of the meeting" },
+        "faithLevel": { "type": "string", "description": "Faith level of the meeting" },
+        "peopleCount": { "type": "number", "description": "Number of people" },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "details": { "type": "string" }
+            },
+            "required": ["id", "title", "details"]
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description", "theme", "faithLevel", "peopleCount", "steps", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/meetings/{meetingId}": {
+      "schema": { "$ref": "#/entities/Meeting" },
+      "description": "Collection of all shared meetings"
+    }
+  }
+}
