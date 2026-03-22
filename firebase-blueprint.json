@@ -9,6 +9,7 @@
         "description": { "type": "string", "description": "Description of the meeting" },
         "theme": { "type": "string", "description": "Theme of the meeting" },
         "faithLevel": { "type": "string", "description": "Faith level of the meeting" },
+        "duration": { "type": "string", "description": "Duration of the meeting" },
         "peopleCount": { "type": "number", "description": "Number of people" },
         "steps": {
           "type": "array",
@@ -24,7 +25,7 @@
         },
         "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["title", "description", "theme", "faithLevel", "peopleCount", "steps", "createdAt"]
+      "required": ["title", "description", "theme", "faithLevel", "duration", "peopleCount", "steps", "createdAt"]
     }
   },
   "firestore": {

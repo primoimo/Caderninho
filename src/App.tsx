@@ -109,9 +109,10 @@ const Home = ({
 
   return (
     <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -15 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex flex-col min-h-screen bg-[var(--color-bg)]"
     >
       {/* Header Section */}
@@ -418,9 +419,10 @@ const AddMeeting = ({
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      exit={{ opacity: 0, y: -15 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex flex-col min-h-screen bg-[var(--color-bg)]"
     >
       <div className="bg-[var(--color-primary)] text-[var(--color-primary-text)] p-6 md:p-10 pb-20 md:pb-24 rounded-b-[60px] md:rounded-b-[80px] shrink-0 border-b-8 border-[var(--color-dark)]">
@@ -641,9 +643,10 @@ const MeetingDetails = ({ meeting, onBack, onEdit }: { meeting: MeetingData, onB
 
   return (
     <motion.div 
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 20 }}
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -15 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex flex-col min-h-screen bg-[var(--color-bg)]"
     >
       <div className="max-w-3xl mx-auto w-full p-6 md:p-12 pt-8 flex flex-col grow">
@@ -739,57 +742,7 @@ const MeetingDetails = ({ meeting, onBack, onEdit }: { meeting: MeetingData, onB
   );
 };
 
-const Success = ({ onHome }: { onHome: () => void, key?: string }) => {
-  return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex flex-col min-h-screen bg-[var(--color-primary)] relative overflow-hidden"
-    >
-      <div className="max-w-2xl mx-auto w-full p-6 md:p-12 flex flex-col grow justify-center">
-        <motion.div 
-          initial={{ scale: 0.9, y: 20 }}
-          animate={{ scale: 1, y: 0 }}
-          transition={{ type: "spring", bounce: 0.4 }}
-          className="bg-[var(--color-bg)] rounded-[48px] p-8 md:p-12 pt-10 md:pt-14 pb-10 md:pb-14 flex flex-col items-center text-center relative z-10 border-8 border-[var(--color-dark)] shadow-[16px_16px_0px_var(--color-dark)]"
-        >
-          <h2 className="text-xl md:text-2xl font-black text-[var(--color-dark)] mb-10 md:mb-12 tracking-widest uppercase">Resultados</h2>
-          
-          <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1, rotate: [0, 10, -10, 0] }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-[80px] md:text-[100px] mb-6 md:mb-8 leading-none drop-shadow-xl"
-          >
-            🏆
-          </motion.div>
-          <h3 className="text-[28px] md:text-[36px] font-black text-[var(--color-dark)] mb-10 md:mb-12">Reunião Salva!</h3>
-
-          <div className="flex flex-col sm:flex-row gap-4 w-full">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onHome} 
-              className="flex-1 bg-[var(--color-card)] text-[var(--color-dark)] font-black text-[18px] md:text-[20px] py-5 rounded-[24px] border-4 border-[var(--color-dark)] shadow-[6px_6px_0px_var(--color-dark)] hover:translate-y-1 hover:shadow-[2px_2px_0px_var(--color-dark)] transition-all"
-            >
-              Início
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onHome} 
-              className="flex-1 bg-[var(--color-primary)] text-[var(--color-primary-text)] font-black text-[18px] md:text-[20px] py-5 rounded-[24px] border-4 border-[var(--color-dark)] shadow-[6px_6px_0px_var(--color-dark)] hover:translate-y-1 hover:shadow-[2px_2px_0px_var(--color-dark)] transition-all"
-            >
-              Ver Mais
-            </motion.button>
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-};
-
-type ViewState = 'home' | 'add-meeting' | 'meeting' | 'success';
+type ViewState = 'home' | 'add-meeting' | 'meeting';
 
 export default function App() {
   const [view, setView] = useState<ViewState>('home');
@@ -827,7 +780,7 @@ export default function App() {
       }
       setSelectedMeeting(meetingData);
       setEditingMeeting(null);
-      setView('success');
+      setView('home');
     } catch (error) {
       console.error("Error saving meeting: ", error);
       alert("Erro ao salvar a reunião.");
@@ -887,12 +840,6 @@ export default function App() {
             meeting={selectedMeeting}
             onBack={() => setView('home')} 
             onEdit={handleEditMeeting}
-          />
-        )}
-        {view === 'success' && (
-          <Success 
-            key="success" 
-            onHome={() => setView('home')} 
           />
         )}
       </AnimatePresence>

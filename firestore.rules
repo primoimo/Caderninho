@@ -26,15 +26,18 @@ service cloud.firestore {
     // ===============================================================
     
     function isValidMeeting(data) {
-      return hasOnlyAllowedFields(['title', 'description', 'theme', 'faithLevel', 'peopleCount', 'steps', 'createdAt']) &&
-             hasRequiredFields(['title', 'description', 'theme', 'faithLevel', 'peopleCount', 'steps', 'createdAt']) &&
+      return hasOnlyAllowedFields(['title', 'description', 'theme', 'faithLevel', 'duration', 'peopleCount', 'steps', 'createdAt', 'userId', 'authorName']) &&
+             hasRequiredFields(['title', 'description', 'theme', 'faithLevel', 'duration', 'peopleCount', 'steps']) &&
              validStringLength('title', 1, 100) &&
-             validStringLength('description', 1, 500) &&
-             validStringLength('theme', 1, 50) &&
-             validStringLength('faithLevel', 1, 50) &&
+             validStringLength('description', 0, 500) &&
+             validStringLength('theme', 0, 50) &&
+             validStringLength('faithLevel', 0, 50) &&
+             validStringLength('duration', 0, 50) &&
              data.peopleCount is number && data.peopleCount >= 0 &&
              data.steps is list && data.steps.size() <= 20 &&
-             data.createdAt is string;
+             (!('createdAt' in data) || data.createdAt is string) &&
+             (!('userId' in data) || data.userId is string) &&
+             (!('authorName' in data) || data.authorName is string);
     }
 
     // ===============================================================
@@ -45,7 +48,7 @@ service cloud.firestore {
       allow read: if true;
       allow create: if isValidMeeting(request.resource.data);
       allow update: if isValidMeeting(request.resource.data) &&
-                    request.resource.data.createdAt == resource.data.createdAt; // Immutable
+                    (!('createdAt' in request.resource.data) || !('createdAt' in resource.data) || request.resource.data.createdAt == resource.data.createdAt); // Immutable
       allow delete: if true;
     }
   }
